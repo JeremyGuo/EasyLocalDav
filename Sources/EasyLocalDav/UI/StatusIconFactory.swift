@@ -27,10 +27,10 @@ enum StatusIconFactory {
         folder.line(to: NSPoint(x: 3.7, y: 6.8))
         folder.curve(to: NSPoint(x: 5.0, y: 5.4), controlPoint1: NSPoint(x: 3.7, y: 6.0), controlPoint2: NSPoint(x: 4.3, y: 5.4))
 
-        NSColor.white.setStroke()
+        NSColor.black.setStroke()
         folder.stroke()
 
-        image.isTemplate = false
+        image.isTemplate = true
         return image
     }
 }
