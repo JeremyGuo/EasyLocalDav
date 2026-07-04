@@ -1,0 +1,28 @@
+name: CI
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: macos-14
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Validate packaging files
+        run: |
+          set -euo pipefail
+          bash -n Scripts/package_app.sh
+          bash -n Scripts/create_dmg.sh
+          plutil -lint Packaging/Info.plist
+
+      - name: Build release binary
+        run: swift build -c release --arch arm64

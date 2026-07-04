@@ -45,7 +45,7 @@ The app stays out of the Dock, lives in the menu bar, and can restore enabled We
 7. Choose an unused port, such as `8080`.
 8. Start the service and copy the WebDAV URL.
 
-Because current releases are unsigned and not notarized, macOS may block the first launch. Open it from Finder with right click -> Open, then confirm the security prompt.
+Because current releases are ad-hoc signed but not notarized, macOS may block the first launch. Open it from Finder with right click -> Open, then confirm the security prompt.
 
 ## Zotero Setup
 
@@ -76,6 +76,8 @@ Build the app bundle:
 ./Scripts/package_app.sh
 ```
 
+The packaging script ad-hoc signs the app bundle by default so the bundled `rclone` executable can run from the DMG without requiring a Developer ID certificate. Set `SKIP_CODESIGN=1` if you need a completely unsigned local bundle for debugging.
+
 Create a drag-to-Applications DMG:
 
 ```sh
@@ -102,7 +104,7 @@ Release builds are:
 
 - Apple Silicon only
 - macOS 13+
-- Unsigned
+- Ad-hoc signed
 - Not notarized
 
 To publish, push a version tag:

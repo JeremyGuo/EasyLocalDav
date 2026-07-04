@@ -31,4 +31,21 @@ else
   echo "warning: rclone was not embedded because it was not found" >&2
 fi
 
+if [[ "${SKIP_CODESIGN:-0}" != "1" ]]; then
+  if command -v codesign >/dev/null 2>&1; then
+    if command -v xattr >/dev/null 2>&1; then
+      xattr -cr "$APP_DIR" || true
+    fi
+
+    SIGN_IDENTITY="${CODESIGN_IDENTITY:--}"
+    if [[ -x "$RESOURCES_DIR/rclone" ]]; then
+      codesign --force --sign "$SIGN_IDENTITY" "$RESOURCES_DIR/rclone"
+    fi
+    codesign --force --deep --sign "$SIGN_IDENTITY" "$APP_DIR"
+    codesign --verify --deep --strict --verbose=2 "$APP_DIR"
+  else
+    echo "warning: codesign was not found; app bundle was left unsigned" >&2
+  fi
+fi
+
 echo "$APP_DIR"
