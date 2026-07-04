@@ -262,8 +262,9 @@ final class AppModel: ObservableObject {
 
         guard automaticUpdateChecksEnabled else { return }
         updateTimer = Timer.scheduledTimer(withTimeInterval: 24 * 60 * 60, repeats: true) { [weak self] _ in
+            guard let model = self else { return }
             Task { @MainActor in
-                self?.checkForUpdates(silent: true)
+                model.checkForUpdates(silent: true)
             }
         }
     }
