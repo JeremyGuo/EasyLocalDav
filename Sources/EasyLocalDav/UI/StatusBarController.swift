@@ -17,17 +17,24 @@ final class StatusBarController: NSObject {
         self.quit = quit
         super.init()
 
-        statusItem.button?.image = StatusIconFactory.image(for: model.health)
+        updateStatusImage()
+        statusItem.button?.imagePosition = .imageOnly
+        statusItem.button?.imageScaling = .scaleProportionallyDown
         statusItem.button?.toolTip = "EasyLocalDav"
         rebuildMenu()
 
         model.$services
             .combineLatest(model.$runtimeStates)
             .sink { [weak self] _ in
-                self?.statusItem.button?.image = StatusIconFactory.image(for: model.health)
+                self?.updateStatusImage()
                 self?.rebuildMenu()
             }
             .store(in: &cancellables)
+    }
+
+    private func updateStatusImage() {
+        statusItem.isVisible = true
+        statusItem.button?.image = StatusIconFactory.image(for: model.health)
     }
 
     private func rebuildMenu() {

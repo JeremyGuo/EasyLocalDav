@@ -2,6 +2,13 @@ import AppKit
 
 enum StatusIconFactory {
     static func image(for _: AppHealth) -> NSImage {
+        if let symbol = NSImage(systemSymbolName: "folder", accessibilityDescription: "EasyLocalDav") {
+            let configuration = NSImage.SymbolConfiguration(pointSize: 17, weight: .regular)
+            let image = symbol.withSymbolConfiguration(configuration) ?? symbol
+            image.isTemplate = true
+            return image
+        }
+
         let size = NSSize(width: 22, height: 22)
         let image = NSImage(size: size)
         image.lockFocus()
