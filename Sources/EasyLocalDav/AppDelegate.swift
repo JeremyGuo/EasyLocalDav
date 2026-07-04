@@ -1,6 +1,6 @@
 import AppKit
-import SwiftUI
 
+@main
 final class AppDelegate: NSObject, NSApplicationDelegate {
     private var model: AppModel!
     private var statusBarController: StatusBarController!
